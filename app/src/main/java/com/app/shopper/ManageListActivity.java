@@ -73,7 +73,6 @@ public class ManageListActivity extends AppCompatActivity {
     // TODO: Modify selection mode toolbar (google files for reference)
     // TODO: Switch Toast error messages for TextViews (for input)
     // TODO: Background selector for cylindrical and circle buttons
-    // TODO: Overflow menu icons
     // TODO: Custom list load menu option
     // TODO: Optimise menu update in 'Select all' menu option
     
