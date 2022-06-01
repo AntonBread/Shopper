@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/popup_save_open"
+        android:title="@string/saves_popup_open" />
+
+    <item
+        android:id="@+id/popup_save_delete"
+        android:title="@string/saves_popup_delete" />
+
+    <item
+        android:id="@+id/popup_save_rename"
+        android:title="@string/saves_popup_rename" />
+
+
+</menu>

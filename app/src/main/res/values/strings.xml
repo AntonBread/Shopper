@@ -1,0 +1,72 @@
+<resources>
+    <string name="app_name">Shopper</string>
+
+    <!--MANAGE LIST ACTIVITY-->
+    <string name="list_toolbar_title_default">Shopper</string>
+    <string name="list_toolbar_title_selection">%d/%d items selected</string>
+    <string name="list_toolbar_action_delete">Delete Selected</string>
+    <string name="list_toolbar_overflow_rename">Rename</string>
+    <string name="list_toolbar_overflow_rename_error_moreThan1">Items can only be renamed one at a time</string>
+    <string name="list_toolbar_overflow_selectAll">Select all</string>
+    <string name="list_toolbar_overflow_removeSelection">Remove selection</string>
+    <string name="list_toolbar_overflow_loadLast">Load last opened list</string>
+    <string name="list_toolbar_overflow_saveList">Save List</string>
+    <string name="list_toolbar_overflow_loadCustom">Load saved list</string>
+
+    <string name="list_itemNameInputHint">New item…</string>
+    <string name="list_btn_add">+</string>
+    <string name="list_input_error_emptyItem">Invalid input</string>
+    <string name="list_input_error_itemAlreadyExists">Item already exists</string>
+
+    <string name="list_empty_text">Shopping list will be displayed here</string>
+
+    <string name="list_save_error">Oops. File save failed.</string>
+    <string name="list_save_empty">Cannot save empty list</string>
+    <string name="list_save_success">List saved to \"%s\"</string>
+    <string name="list_load_error_null">Save not found</string>
+    <string name="list_load_error_general">Loading from \"%s\" failed.</string>
+    <string name="list_load_error_notExist">Save file \"%s\" doesn\'t exist.</string>
+    <string name="list_load_error_cantRead">Save file \"%s\" cannot be read.</string>
+
+
+    <!-- SAVE FILES ACTIVITY-->
+    <string name="saves_toolbar_title">Saved Lists</string>
+
+    <string name="saves_empty_text">Saved lists will be displayed here</string>
+
+    <string name="saves_popup_open">Open</string>
+    <string name="saves_popup_delete">Delete</string>
+    <string name="saves_popup_rename">Rename</string>
+
+    <string name="saves_file_delete_fail">Save deletion failed</string>
+
+    <string name="saves_file_rename_fail">Something went wrong, file could not be renamed</string>
+
+
+
+    <!--NOTIFICATION STRINGS-->
+    <string name="notification_shopList_name">Shop List</string>
+    <string name="notification_shopList_description">Allows quickly to open last edited shop list</string>
+    <string name="notification_shopList_contentTitle">Current shop list</string>
+    <string name="notification_shopList_contentText">Press to open</string>
+
+    <!-- DIALOG STRINGS-->
+    <string name="dialog_rename_title">Rename</string>
+    <string name="dialog_rename_positive">OK</string>
+    <string name="dialog_rename_negative">Cancel</string>
+
+    <string name="dialog_delete_confirm_message">Selected items will be deleted.\nContinue?</string>
+    <string name="dialog_delete_confirm_btn">Delete</string>
+
+    <string name="dialog_load_confirm_text">Current list will be lost.\nContinue?</string>
+    <string name="dialog_load_confirm_btn_positive">Yes</string>
+    <string name="dialog_load_confirm_btn_negative">No</string>
+
+    <string name="dialog_save_title">Save list</string>
+    <string name="dialog_save_input_hint">Save name…</string>
+    <string name="dialog_save_positive">Save</string>
+    <string name="dialog_save_negative">Cancel</string>
+    <string name="dialog_save_alreadyExists_message">List with this name already exists</string>
+    <string name="dialog_save_nameUnavailable_message">Name unavailable</string>
+
+</resources>

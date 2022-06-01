@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/menu_action_delete"
+        android:icon="@drawable/ic_delete_24"
+        android:title="@string/list_toolbar_action_delete"
+        app:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/menu_action_selectAll"
+        android:orderInCategory="1"
+        android:title="@string/list_toolbar_overflow_selectAll"
+        android:icon="@drawable/ic_menu_select_all"
+        app:showAsAction="never"/>
+
+    <item
+        android:id="@+id/menu_action_removeSelection"
+        android:orderInCategory="1"
+        android:visible="false"
+        android:enabled="false"
+        android:title="@string/list_toolbar_overflow_removeSelection"
+        android:icon="@drawable/ic_menu_remove_selection"
+        app:showAsAction="never" />
+
+    <item
+        android:orderInCategory="2"
+        android:id="@+id/menu_action_loadLast"
+        android:title="@string/list_toolbar_overflow_loadLast"
+        android:icon="@drawable/ic_menu_load_last"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/menu_action_rename"
+        android:orderInCategory="3"
+        android:title="@string/list_toolbar_overflow_rename"
+        android:icon="@drawable/ic_menu_rename"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/menu_action_saveList"
+        android:orderInCategory="4"
+        android:title="@string/list_toolbar_overflow_saveList"
+        android:icon="@drawable/ic_menu_save_list_as"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/menu_action_loadCustom"
+        android:orderInCategory="5"
+        android:title="@string/list_toolbar_overflow_loadCustom"
+        android:icon="@drawable/ic_menu_load_custom"
+        app:showAsAction="never" />
+
+</menu>
