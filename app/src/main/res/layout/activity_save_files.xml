@@ -19,14 +19,25 @@
         app:titleMarginBottom="10dp"
         app:titleTextColor="@color/background" />
 
-    <ListView
-        android:id="@+id/saves_listOfFiles"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
         android:layout_marginTop="16dp"
+        android:baselineAligned="false"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/saves_toolbar" />
+        app:layout_constraintTop_toBottomOf="@id/saves_toolbar">
+
+        <ListView
+            android:id="@+id/saves_listOfFiles"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/list_view_background"
+            android:divider="@color/list_view_background_stroke_dark"
+            android:dividerHeight="1dp" />
+    </LinearLayout>
 
     <TextView
         android:id="@+id/saves_empty_text"
@@ -34,10 +45,10 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="48dp"
         android:gravity="center"
-        android:visibility="gone"
         android:text="@string/saves_empty_text"
         android:textColor="@color/text_dark"
         android:textSize="20sp"
+        android:visibility="gone"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@id/saves_toolbar" />

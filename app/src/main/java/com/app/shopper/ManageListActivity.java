@@ -435,25 +435,40 @@ public class ManageListActivity extends AppCompatActivity {
                 if (itemCount < 1) {
                     return false;
                 }
+                boolean menuUpdated = false;
                 if (!isToolbarModeSelection) {
                     setToolbarModeSelection();
                     // Have to force redraw if menu options to change haven't been yet initialized
-                    // Slows the app for half a second, idk how to go around that
+                    // onCreateOptionsMenu() slows app for half second when executed on UI thread
+                    // Thus menu is redrawn on separate thread
                     if (rename == null || removeSelection == null) {
-                        onCreateOptionsMenu(toolbar.getMenu());
+                        menuUpdated = true;
+                        Runnable menuUpdateRunnable = () -> toolbar.post(() -> {
+                            onCreateOptionsMenu(toolbar.getMenu());
+                            if (itemCount > 1) {
+                                disableSingleItemMenuOptions();
+                            }
+                            updateRemoveSelectionMenuOption();
+                            invalidateOptionsMenu();
+                        });
+                        Thread menuUpdateThread = new Thread(menuUpdateRunnable);
+                        menuUpdateThread.start();
                     }
                 }
                 for (int i = 0; i < itemCount; i++) {
                     itemList.setItemChecked(i, true);
                 }
                 updateToolbarTitle();
-                if (itemCount > 1) {
-                    disableSingleItemMenuOptions();
+                // Update menu if it hasn't been in the separate thread
+                if (!menuUpdated) {
+                    if (itemCount > 1) {
+                        disableSingleItemMenuOptions();
+                    }
+                    updateRemoveSelectionMenuOption();
+                    invalidateOptionsMenu();
                 }
-                updateRemoveSelectionMenuOption();
-                invalidateOptionsMenu();
                 return true;
-                
+            
             case R.id.menu_action_removeSelection:
                 for (int i = itemCount - 1; i >= 0; i--) {
                     itemList.setItemChecked(i, false);
@@ -542,7 +557,7 @@ public class ManageListActivity extends AppCompatActivity {
                 saveDialog.setArguments(args);
                 saveDialog.show(getSupportFragmentManager(), "save_list_dialog");
             
-                
+            
             case R.id.menu_action_loadCustom:
                 return true;
             
@@ -565,6 +580,13 @@ public class ManageListActivity extends AppCompatActivity {
         Menu menu = toolbar.getMenu();
         menu.close();
         MenuItem selectAll = menu.findItem(R.id.menu_action_selectAll);
+        
+        // Additional failsafe check
+        // Forced menu redraw doesn't seem to slow the app, so done on UI thread
+        if (removeSelection == null) {
+            setToolbarModeSelection();
+            onCreateOptionsMenu(toolbar.getMenu());
+        }
         
         int itemCount = itemList.getCount();
         int checkedCount = itemList.getCheckedItemCount();
