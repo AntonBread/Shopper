@@ -13,8 +13,8 @@ import com.app.shopper.R;
 
 public class LoadSaveConfirmationDialogFragment extends DialogFragment {
     
-    public static final String LOAD_CONFIRM_DIALOG_REQUEST_KEY = "load_dialog_request_key";
-    public static final String LOAD_CONFIRM_DIALOG_RESULT_KEY = "load_dialog_result_key";
+    public static final String LOAD_CONFIRM_DIALOG_REQUEST_KEY = "load_confirm_dialog_request_key";
+    public static final String LOAD_CONFIRM_DIALOG_RESULT_KEY = "load_confirm_dialog_result_key";
     
     @NonNull
     @Override
