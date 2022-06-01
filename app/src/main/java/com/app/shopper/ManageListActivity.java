@@ -75,6 +75,7 @@ public class ManageListActivity extends AppCompatActivity {
     // TODO: Background selector for cylindrical and circle buttons
     // TODO: Overflow menu icons
     // TODO: Custom list load menu option
+    // TODO: Optimise menu update in 'Select all' menu option
     
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -580,14 +581,6 @@ public class ManageListActivity extends AppCompatActivity {
             selectAll.setVisible(true);
             selectAll.setEnabled(true);
         }
-    }
-    
-    private void disableRemoveSelectionMenuOption() {
-        Menu menu = toolbar.getMenu();
-    
-        MenuItem selectAll = menu.findItem(R.id.menu_action_selectAll);
-        MenuItem removeSelection = menu.findItem(R.id.menu_action_removeSelection);
-        
     }
     
     private void setToolbarModeDefault() {
