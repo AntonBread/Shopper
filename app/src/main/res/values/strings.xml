@@ -69,4 +69,9 @@
     <string name="dialog_save_alreadyExists_message">List with this name already exists</string>
     <string name="dialog_save_nameUnavailable_message">Name unavailable</string>
 
+    <string name="dialog_load_custom_title">Choose saved list</string>
+    <string name="dialog_load_custom_positive">Open</string>
+    <string name="dialog_load_custom_negative">Cancel</string>
+    <string name="dialog_load_custom_noSelection">You have to select something first</string>
+
 </resources>

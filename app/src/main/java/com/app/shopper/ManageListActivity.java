@@ -21,14 +21,17 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.content.res.AppCompatResources;
 import androidx.appcompat.view.menu.MenuBuilder;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
+import androidx.fragment.app.FragmentResultListener;
 
 import com.app.shopper.dialogs.DeleteItemConfirmationDialogFragment;
+import com.app.shopper.dialogs.LoadCustomDialogFragment;
 import com.app.shopper.dialogs.LoadSaveConfirmationDialogFragment;
 import com.app.shopper.dialogs.RenameItemDialogFragment;
 import com.app.shopper.dialogs.SaveListDialogFragment;
@@ -55,7 +58,7 @@ public class ManageListActivity extends AppCompatActivity {
     private AdapterView.OnItemClickListener listClickListener;
     
     protected static final String TEMP_SAVE_NAME = "tempSave.txt";
-    private String SAVE_PATH;
+    public static String SAVE_PATH;
     
     private final String SHOP_LIST_NOTIFICATION_CHANNEL_ID = "shopper_shopList_notificationChannel";
     private final int SHOP_LIST_NOTIFICATION_ID = 1; // Not sure if it can be used anywhere after notification init
@@ -69,12 +72,9 @@ public class ManageListActivity extends AppCompatActivity {
     private boolean isToolbarModeSelection = false;
     
     // TODO: Add custom ListView style
-    // TODO: Continue adding options to both menus
     // TODO: Modify selection mode toolbar (google files for reference)
     // TODO: Switch Toast error messages for TextViews (for input)
     // TODO: Background selector for cylindrical and circle buttons
-    // TODO: Custom list load menu option
-    // TODO: Optimise menu update in 'Select all' menu option
     
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -192,6 +192,10 @@ public class ManageListActivity extends AppCompatActivity {
         }
         items.add(item);
         itemAdapter.notifyDataSetChanged();
+        if (isToolbarModeSelection) {
+            updateToolbarTitle();
+            updateRemoveSelectionMenuOption();
+        }
     }
     
     public void removeItem(String item) {
@@ -351,6 +355,10 @@ public class ManageListActivity extends AppCompatActivity {
     }
     
     public void loadList(String fileName) {
+        // Clear the list before loading anything
+        items.clear();
+        itemAdapter.notifyDataSetChanged();
+        
         File saveFile = new File(SAVE_PATH, fileName);
         try (BufferedReader reader = new BufferedReader(new FileReader(saveFile))) {
             String item;
@@ -402,13 +410,20 @@ public class ManageListActivity extends AppCompatActivity {
         return true;
     }
     
+    // Menu option click handler looks absolutely gargantuan
+    // Note to self: in future try to divide menu options in smaller methods
     @SuppressLint("NonConstantResourceId")
     @Override
     public boolean onOptionsItemSelected(MenuItem menuItem) {
         int id = menuItem.getItemId();
+        
+        // Various options menu variables
         SparseBooleanArray checked = itemList.getCheckedItemPositions();
         int itemCount = itemList.getCount();
+        File saveDirectory = new File(SAVE_PATH);
+        File[] saveFiles;
         Bundle args = new Bundle();
+        
         switch (id) {
             
             case R.id.menu_action_delete:
@@ -545,8 +560,7 @@ public class ManageListActivity extends AppCompatActivity {
                         });
                 SaveListDialogFragment saveDialog = new SaveListDialogFragment();
                 // Send already existing file names to dialog
-                File saveDirectory = new File(SAVE_PATH);
-                File[] saveFiles = saveDirectory.listFiles();
+                saveFiles = saveDirectory.listFiles();
                 ArrayList<String> saves = new ArrayList<>(32);
                 if (!(saveFiles == null)) {
                     for (File saveFile : saveFiles) {
@@ -556,9 +570,85 @@ public class ManageListActivity extends AppCompatActivity {
                 args.putStringArrayList(SaveListDialogFragment.FILE_NAMES_LIST_KEY, saves);
                 saveDialog.setArguments(args);
                 saveDialog.show(getSupportFragmentManager(), "save_list_dialog");
+                return true;
             
             
             case R.id.menu_action_loadCustom:
+                saveFiles = saveDirectory.listFiles((dir, name) -> !name.equals(TEMP_SAVE_NAME));
+                if (saveFiles.length == 0) {
+                    // TODO: Show some kind of error message
+                    return false;
+                }
+                
+                // If current list is non-empty — confirm loading
+                if (itemCount > 0) {
+                    // Nested dialog fragment call looks nasty
+                    // No effect on performance though
+                    // Maybe will come up with a better solution later
+                    getSupportFragmentManager().setFragmentResultListener(
+                            LoadSaveConfirmationDialogFragment.LOAD_CONFIRM_DIALOG_REQUEST_KEY, this,
+                            (requestKey, result) -> {
+                                boolean load =
+                                        result.getBoolean(
+                                                LoadSaveConfirmationDialogFragment.LOAD_CONFIRM_DIALOG_RESULT_KEY,
+                                                false);
+                                if (!load) {
+                                    return;
+                                }
+                                
+                                // Convert file array to array list of file names to be sent to dialog
+                                ArrayList<String> saveNames = new ArrayList<>(saveFiles.length);
+                                String saveName;
+                                for (File saveFile : saveFiles) {
+                                    saveName = saveFile.getName().replace(".txt", "");
+                                    saveNames.add(saveName);
+                                }
+                                
+                                getSupportFragmentManager().setFragmentResultListener(
+                                        LoadCustomDialogFragment.LOAD_CUSTOM_DIALOG_REQUEST_KEY, this,
+                                        (requestKey1, result1) -> {
+                                            String saveName12 =
+                                                    result1.getString(
+                                                            LoadCustomDialogFragment.LOAD_CUSTOM_DIALOG_RESULT_KEY);
+                                            if (saveName12 == null) {
+                                                // TODO: Maybe add some error message here too
+                                                return;
+                                            }
+                                            loadList(saveName12);
+                                        });
+                                LoadCustomDialogFragment loadDialog = new LoadCustomDialogFragment();
+                                args.putStringArrayList(LoadCustomDialogFragment.LOAD_CUSTOM_DIALOG_SAVE_FILES_KEY,
+                                                        saveNames);
+                                loadDialog.setArguments(args);
+                                loadDialog.show(getSupportFragmentManager(), "load_custom_dialog");
+                            });
+                    new LoadSaveConfirmationDialogFragment().show(getSupportFragmentManager(), "dialog_load_confirm");
+                }
+                else {
+                    // Convert file array to array list of file names to be sent to dialog
+                    ArrayList<String> saveNames = new ArrayList<>(saveFiles.length);
+                    String saveName;
+                    for (File saveFile : saveFiles) {
+                        saveName = saveFile.getName().replace(".txt", "");
+                        saveNames.add(saveName);
+                    }
+                    
+                    getSupportFragmentManager().setFragmentResultListener(
+                            LoadCustomDialogFragment.LOAD_CUSTOM_DIALOG_REQUEST_KEY, this,
+                            (requestKey, result) -> {
+                                String selectedSaveName =
+                                        result.getString(LoadCustomDialogFragment.LOAD_CUSTOM_DIALOG_RESULT_KEY);
+                                if (selectedSaveName == null) {
+                                    // TODO: Maybe add some error message here too
+                                    return;
+                                }
+                                loadList(selectedSaveName);
+                            });
+                    LoadCustomDialogFragment loadDialog = new LoadCustomDialogFragment();
+                    args.putStringArrayList(LoadCustomDialogFragment.LOAD_CUSTOM_DIALOG_SAVE_FILES_KEY, saveNames);
+                    loadDialog.setArguments(args);
+                    loadDialog.show(getSupportFragmentManager(), "load_custom_dialog");
+                }
                 return true;
             
             default:
