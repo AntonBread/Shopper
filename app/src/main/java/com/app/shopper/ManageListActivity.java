@@ -13,28 +13,28 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.EditText;
+import android.widget.AutoCompleteTextView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.content.res.AppCompatResources;
 import androidx.appcompat.view.menu.MenuBuilder;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
-import androidx.fragment.app.FragmentResultListener;
 
 import com.app.shopper.dialogs.DeleteItemConfirmationDialogFragment;
 import com.app.shopper.dialogs.LoadCustomDialogFragment;
 import com.app.shopper.dialogs.LoadSaveConfirmationDialogFragment;
 import com.app.shopper.dialogs.RenameItemDialogFragment;
 import com.app.shopper.dialogs.SaveListDialogFragment;
+import com.app.shopper.util.CacheHelper;
 import com.app.shopper.util.StringUtils;
 
 import java.io.BufferedReader;
@@ -52,6 +52,10 @@ public class ManageListActivity extends AppCompatActivity {
     private Toolbar toolbar;
     private TextView emptyListText;
     
+    private AutoCompleteTextView itemInput;
+    private ArrayList<String> autoCompleteStrings;
+    private ArrayAdapter<String> itemInputAdapter;
+    
     private MenuItem removeSelection;
     private MenuItem rename;
     
@@ -59,6 +63,8 @@ public class ManageListActivity extends AppCompatActivity {
     
     protected static final String TEMP_SAVE_NAME = "tempSave.txt";
     public static String SAVE_PATH;
+    
+    public static String CACHE_PATH;
     
     private final String SHOP_LIST_NOTIFICATION_CHANNEL_ID = "shopper_shopList_notificationChannel";
     private final int SHOP_LIST_NOTIFICATION_ID = 1; // Not sure if it can be used anywhere after notification init
@@ -75,6 +81,7 @@ public class ManageListActivity extends AppCompatActivity {
     // TODO: Modify selection mode toolbar (google files for reference)
     // TODO: Switch Toast error messages for TextViews (for input)
     // TODO: Background selector for cylindrical and circle buttons
+    // TODO: Make toolbar navigation button remove selection in selection mode
     
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -86,6 +93,7 @@ public class ManageListActivity extends AppCompatActivity {
                                   getString(R.string.notification_shopList_description));
         
         SAVE_PATH = getFilesDir().getAbsolutePath() + "/save";
+        CACHE_PATH = getCacheDir().getAbsolutePath();
         
         // ------------------------------------------------------------------------------------------------------
         // TOOLBAR SETUP
@@ -133,6 +141,17 @@ public class ManageListActivity extends AppCompatActivity {
         
         itemList.setOnItemLongClickListener(listLongClickListener);
         // ------------------------------------------------------------------------------------------------------
+        
+        // ------------------------------------------------------------------------------------------------------
+        // INPUT AUTO COMPLETE TEXT VIEW SETUP
+        // ------------------------------------------------------------------------------------------------------
+        CacheHelper.createItemsCache(); // recreates file in case cache has been cleared
+        itemInput = findViewById(R.id.list_itemNameInput);
+        autoCompleteStrings = CacheHelper.getItemsCache();
+        itemInputAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, autoCompleteStrings);
+        itemInput.setAdapter(itemInputAdapter);
+        // ------------------------------------------------------------------------------------------------------
+        
         
         // ------------------------------------------------------------------------------------------------------
         // START CODE CHECK
@@ -223,6 +242,7 @@ public class ManageListActivity extends AppCompatActivity {
         itemAdapter.notifyDataSetChanged();
     }
     
+    // ONLY USE FOR 'SET TOOLBAR DEFAULT MODE' METHOD
     private void clearListViewChoices() {
         itemList.clearChoices();
         for (int i = 0; i < itemList.getCount(); i++) {
@@ -233,7 +253,6 @@ public class ManageListActivity extends AppCompatActivity {
     
     public void onClickAddItem(View view) {
         // Make all necessary checks before adding item to list
-        EditText itemInput = findViewById(R.id.list_itemNameInput);
         String item = itemInput.getText().toString();
         item = StringUtils.formatItemNameInput(item);
         int validity = StringUtils.validateItemNameInput(item, items);
@@ -246,6 +265,14 @@ public class ManageListActivity extends AppCompatActivity {
                 break;
             case 0:
                 addItem(item);
+                // Adding item to cache is done on a separate thread so as not to slow UI thread
+                final String itemFinal = item;
+                new Thread(() -> {
+                    if (CacheHelper.addToItemsCache(itemFinal)) {
+                        // Hacky, but updating adapter via notifyDataSetChanged() doesn't work
+                        itemInputAdapter.add(itemFinal);
+                    }
+                }).start();
                 itemInput.getText().clear();
                 break;
         }
@@ -260,7 +287,7 @@ public class ManageListActivity extends AppCompatActivity {
     }
     
     // This notification is displayed when activity is closed
-    // Allows quick access to previously list
+    // Allows quick access to previously opened list
     private void displayShopListNotification() {
         Intent intent = new Intent(this, ManageListActivity.class);
         intent.putExtra(START_CODE_EXTRA_NAME, START_CODE_LOAD_TEMP);
@@ -485,7 +512,7 @@ public class ManageListActivity extends AppCompatActivity {
                 return true;
             
             case R.id.menu_action_removeSelection:
-                for (int i = itemCount - 1; i >= 0; i--) {
+                for (int i = 0; i < itemCount; i++) {
                     itemList.setItemChecked(i, false);
                 }
                 setToolbarModeDefault();
@@ -575,7 +602,7 @@ public class ManageListActivity extends AppCompatActivity {
             
             case R.id.menu_action_loadCustom:
                 saveFiles = saveDirectory.listFiles((dir, name) -> !name.equals(TEMP_SAVE_NAME));
-                if (saveFiles.length == 0) {
+                if (saveFiles == null || saveFiles.length == 0) {
                     // TODO: Show some kind of error message
                     return false;
                 }
@@ -587,9 +614,9 @@ public class ManageListActivity extends AppCompatActivity {
                     // Maybe will come up with a better solution later
                     getSupportFragmentManager().setFragmentResultListener(
                             LoadSaveConfirmationDialogFragment.LOAD_CONFIRM_DIALOG_REQUEST_KEY, this,
-                            (requestKey, result) -> {
+                            (requestKeyConfirmation, resultConfirmation) -> {
                                 boolean load =
-                                        result.getBoolean(
+                                        resultConfirmation.getBoolean(
                                                 LoadSaveConfirmationDialogFragment.LOAD_CONFIRM_DIALOG_RESULT_KEY,
                                                 false);
                                 if (!load) {
@@ -606,15 +633,18 @@ public class ManageListActivity extends AppCompatActivity {
                                 
                                 getSupportFragmentManager().setFragmentResultListener(
                                         LoadCustomDialogFragment.LOAD_CUSTOM_DIALOG_REQUEST_KEY, this,
-                                        (requestKey1, result1) -> {
-                                            String saveName12 =
-                                                    result1.getString(
+                                        (requestKeySave, resultSave) -> {
+                                            String saveFileName =
+                                                    resultSave.getString(
                                                             LoadCustomDialogFragment.LOAD_CUSTOM_DIALOG_RESULT_KEY);
-                                            if (saveName12 == null) {
+                                            if (saveFileName == null) {
                                                 // TODO: Maybe add some error message here too
                                                 return;
                                             }
-                                            loadList(saveName12);
+                                            loadList(saveFileName);
+                                            if (isToolbarModeSelection) {
+                                                setToolbarModeDefault();
+                                            }
                                         });
                                 LoadCustomDialogFragment loadDialog = new LoadCustomDialogFragment();
                                 args.putStringArrayList(LoadCustomDialogFragment.LOAD_CUSTOM_DIALOG_SAVE_FILES_KEY,
@@ -643,6 +673,9 @@ public class ManageListActivity extends AppCompatActivity {
                                     return;
                                 }
                                 loadList(selectedSaveName);
+                                if (isToolbarModeSelection) {
+                                    setToolbarModeDefault();
+                                }
                             });
                     LoadCustomDialogFragment loadDialog = new LoadCustomDialogFragment();
                     args.putStringArrayList(LoadCustomDialogFragment.LOAD_CUSTOM_DIALOG_SAVE_FILES_KEY, saveNames);
@@ -695,20 +728,37 @@ public class ManageListActivity extends AppCompatActivity {
     }
     
     private void setToolbarModeDefault() {
-        toolbar.setBackground(new ColorDrawable(getColor(R.color.toolbar)));
         isToolbarModeSelection = false;
+        toolbar.setBackground(new ColorDrawable(getColor(R.color.toolbar)));
+        updateStatusBarColor();
         itemList.setOnItemClickListener(null);
         clearListViewChoices();
         invalidateOptionsMenu();
         updateToolbarTitle();
+        updateToolbarNavigation();
     }
     
     private void setToolbarModeSelection() {
-        toolbar.setBackground(new ColorDrawable(getColor(R.color.blue)));
         isToolbarModeSelection = true;
+        updateStatusBarColor();
+        toolbar.setBackground(new ColorDrawable(getColor(R.color.blue)));
         itemList.setChoiceMode(AbsListView.CHOICE_MODE_MULTIPLE);
         itemList.setOnItemClickListener(listClickListener);
         invalidateOptionsMenu();
+        updateToolbarNavigation();
+    }
+    
+    private void updateStatusBarColor() {
+        Window window = getWindow();
+        View decorView = window.getDecorView();
+        if (isToolbarModeSelection) {
+            window.setStatusBarColor(getColor(R.color.blue));
+            decorView.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
+        }
+        else {
+            window.setStatusBarColor(getColor(R.color.status_bar));
+            decorView.setSystemUiVisibility(decorView.getSystemUiVisibility() & ~View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
+        }
     }
     
     private void updateToolbarTitle() {
@@ -721,6 +771,24 @@ public class ManageListActivity extends AppCompatActivity {
         }
         else {
             toolbar.setTitle(getString(R.string.list_toolbar_title_default));
+        }
+    }
+    
+    private void updateToolbarNavigation() {
+        if (isToolbarModeSelection) {
+            toolbar.setNavigationIcon(R.drawable.ic_close_24);
+            toolbar.setNavigationOnClickListener(v -> {
+                int itemCount = itemList.getCount();
+                for (int i = 0; i < itemCount; i++) {
+                    itemList.setItemChecked(i, false);
+                }
+                setToolbarModeDefault();
+            });
+        }
+        else {
+            toolbar.setNavigationIcon(R.drawable.ic_toolbar_menu_24);
+            toolbar.setNavigationOnClickListener(
+                    v -> startActivity(new Intent(ManageListActivity.this, SaveFilesActivity.class)));
         }
     }
 }
