@@ -19,7 +19,7 @@
         app:titleMarginBottom="10dp"
         app:titleTextColor="@color/background" />
 
-    <EditText
+    <AutoCompleteTextView
         android:id="@+id/list_itemNameInput"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -27,6 +27,8 @@
         android:layout_marginTop="16dp"
         android:background="@drawable/edit_text_back_dark"
         android:hint="@string/list_itemNameInputHint"
+        android:completionThreshold="1"
+        android:dropDownHeight="wrap_content"
         android:inputType="textCapSentences"
         android:lines="1"
         android:maxLength="24"
