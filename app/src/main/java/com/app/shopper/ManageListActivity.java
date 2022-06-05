@@ -19,6 +19,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.ListView;
+import android.widget.PopupMenu;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -35,6 +36,7 @@ import com.app.shopper.dialogs.LoadSaveConfirmationDialogFragment;
 import com.app.shopper.dialogs.RenameItemDialogFragment;
 import com.app.shopper.dialogs.SaveListDialogFragment;
 import com.app.shopper.util.CacheHelper;
+import com.app.shopper.util.SettingsHelper;
 import com.app.shopper.util.StringUtils;
 
 import java.io.BufferedReader;
@@ -43,6 +45,7 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class ManageListActivity extends AppCompatActivity {
     
@@ -60,6 +63,9 @@ public class ManageListActivity extends AppCompatActivity {
     private MenuItem rename;
     
     private AdapterView.OnItemClickListener listClickListener;
+    
+    private View.OnClickListener navigationDefaultListener;
+    private View.OnClickListener navigationSelectionListener;
     
     protected static final String TEMP_SAVE_NAME = "tempSave.txt";
     public static String SAVE_PATH;
@@ -86,6 +92,7 @@ public class ManageListActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        SettingsHelper.setLocale(this);
         getWindow().getDecorView().setBackgroundColor(getColor(R.color.background));
         setContentView(R.layout.activity_manage_list);
         createNotificationChannel(SHOP_LIST_NOTIFICATION_CHANNEL_ID,
@@ -103,8 +110,16 @@ public class ManageListActivity extends AppCompatActivity {
         
         toolbar.setOverflowIcon(AppCompatResources.getDrawable(this, R.drawable.ic_overflow_24));
         
-        toolbar.setNavigationOnClickListener(
-                v -> startActivity(new Intent(ManageListActivity.this, SaveFilesActivity.class)));
+        navigationDefaultListener = v -> showNavigationPopupMenu();
+        navigationSelectionListener = v -> {
+            int itemCount = itemList.getCount();
+            for (int i = 0; i < itemCount; i++) {
+                itemList.setItemChecked(i, false);
+            }
+            setToolbarModeDefault();
+        };
+        
+        toolbar.setNavigationOnClickListener(navigationDefaultListener);
         // ------------------------------------------------------------------------------------------------------
         
         // ------------------------------------------------------------------------------------------------------
@@ -343,6 +358,7 @@ public class ManageListActivity extends AppCompatActivity {
             // Determine if saved list was in selection mode
             if (Boolean.parseBoolean(reader.readLine()) && loadSelection) {
                 setToolbarModeSelection();
+                onCreateOptionsMenu(toolbar.getMenu());
             }
             
             String item;
@@ -355,13 +371,14 @@ public class ManageListActivity extends AppCompatActivity {
                 addItem(name);
                 if (loadSelection) {
                     itemList.setItemChecked(pos++, isChecked);
+                    updateToolbarTitle();
                 }
             }
         }
         catch (Exception e) {
-            Log.d("DEBUG", "Loading from temp save failed!");
+            Log.d("DEBUG", Arrays.toString(e.getStackTrace()));
             String msg = String.format(getString(R.string.list_load_error_general), "tempSave");
-            Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, e.getLocalizedMessage(), Toast.LENGTH_LONG).show();
         }
     }
     
@@ -396,7 +413,6 @@ public class ManageListActivity extends AppCompatActivity {
         catch (Exception e) {
             String msg = String.format(getString(R.string.list_load_error_general),
                                        fileName.replaceAll(".txt", ""));
-            // Regex to remove file extension
             if (!saveFile.exists()) {
                 msg = String.format(getString(R.string.list_load_error_notExist),
                                     fileName.replaceAll(".txt", ""));
@@ -777,18 +793,40 @@ public class ManageListActivity extends AppCompatActivity {
     private void updateToolbarNavigation() {
         if (isToolbarModeSelection) {
             toolbar.setNavigationIcon(R.drawable.ic_close_24);
-            toolbar.setNavigationOnClickListener(v -> {
-                int itemCount = itemList.getCount();
-                for (int i = 0; i < itemCount; i++) {
-                    itemList.setItemChecked(i, false);
-                }
-                setToolbarModeDefault();
-            });
+            toolbar.setNavigationOnClickListener(navigationSelectionListener);
         }
         else {
             toolbar.setNavigationIcon(R.drawable.ic_toolbar_menu_24);
-            toolbar.setNavigationOnClickListener(
-                    v -> startActivity(new Intent(ManageListActivity.this, SaveFilesActivity.class)));
+            toolbar.setNavigationOnClickListener(navigationDefaultListener);
         }
     }
+    
+    @SuppressLint("NonConstantResourceId")
+    private void showNavigationPopupMenu() {
+        PopupMenu navigationMenu = new PopupMenu(this, toolbar);
+        navigationMenu.inflate(R.menu.menu_popup_navigation);
+        navigationMenu.setOnMenuItemClickListener(item -> {
+            int id = item.getItemId();
+            switch (id) {
+                case R.id.popup_navigation_saves:
+                    startActivity(new Intent(getApplicationContext(), SaveFilesActivity.class));
+                    return true;
+                
+                case R.id.popup_navigation_settings:
+                    startActivity(new Intent(getApplicationContext(), SettingsActivity.class));
+                    return true;
+                
+                default:
+                    return false;
+                
+            }
+        });
+        
+        MenuItem main = navigationMenu.getMenu().findItem(R.id.popup_navigation_main);
+        main.setEnabled(false);
+        main.setVisible(false);
+        
+        navigationMenu.show();
+    }
+    
 }

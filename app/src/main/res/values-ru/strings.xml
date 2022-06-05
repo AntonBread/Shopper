@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Shopper</string>
+
+    <!--MANAGE LIST ACTIVITY-->
+    <string name="list_toolbar_title_default">Shopper</string>
+    <string name="list_toolbar_title_selection">%d/%d Выбрано</string>
+    <string name="list_toolbar_action_delete">Удалить выбранное</string>
+    <string name="list_toolbar_overflow_rename">Переименовать</string>
+    <string name="list_toolbar_overflow_rename_error_moreThan1">Переименовывать предметы можно только по-одному</string>
+    <string name="list_toolbar_overflow_selectAll">Выбрать все</string>
+    <string name="list_toolbar_overflow_removeSelection">Отменить выбор</string>
+    <string name="list_toolbar_overflow_loadLast">Загрузить последний список</string>
+    <string name="list_toolbar_overflow_saveList">Сохранить список</string>
+    <string name="list_toolbar_overflow_loadCustom">Загрузить сохраненный список</string>
+
+    <string name="list_itemNameInputHint">Новый предмет…</string>
+    <string name="list_btn_add">+</string>
+    <string name="list_input_error_emptyItem">Некорректный ввод</string>
+    <string name="list_input_error_itemAlreadyExists">Предмет уже существует</string>
+
+    <string name="list_empty_text">Список покупок будет отображен здесь</string>
+
+    <string name="list_save_error">Упс. Сохранение не удалось</string>
+    <string name="list_save_empty">Нельзя сохранить пустой список</string>
+    <string name="list_save_success">Список сохранен в \"%s\"</string>
+    <string name="list_load_error_null">Сохранение не найдено</string>
+    <string name="list_load_error_general">Загрузка из \"%s\" не удалась.</string>
+    <string name="list_load_error_notExist">Сохранение \"%s\" не существует.</string>
+    <string name="list_load_error_cantRead">Сохранение \"%s\" не может быть прочитано.</string>
+
+
+    <!-- SAVE FILES ACTIVITY-->
+    <string name="saves_toolbar_title">Сохраненные списки</string>
+
+    <string name="saves_empty_text">Сохраненные списки будут отображены здесь</string>
+
+    <string name="saves_popup_open">Открыть</string>
+    <string name="saves_popup_delete">Удалить</string>
+    <string name="saves_popup_rename">Переименовать</string>
+
+    <string name="saves_file_delete_fail">Не удалось удалить сохранение</string>
+
+    <string name="saves_file_rename_fail">Что-то пошло не так, сохранение не удалось переименовать</string>
+
+
+    <!--NOTIFICATION STRINGS-->
+    <string name="notification_shopList_name">Список Покупок</string>
+    <string name="notification_shopList_description">Предоставляет быстрый доступ к последнему открытому списку</string>
+    <string name="notification_shopList_contentTitle">Текущий список</string>
+    <string name="notification_shopList_contentText">Нажмите для открытия</string>
+
+    <!-- DIALOG STRINGS-->
+    <string name="dialog_rename_title">Переименовать</string>
+    <string name="dialog_rename_positive">OK</string>
+    <string name="dialog_rename_negative">Отмена</string>
+
+    <string name="dialog_delete_confirm_message">Выбранные предметы будут удалены.\nПродолжить?</string>
+    <string name="dialog_delete_confirm_btn">Удалить</string>
+
+    <string name="dialog_load_confirm_text">Текущий список будет потерян.\nПродолжить?</string>
+    <string name="dialog_load_confirm_btn_positive">Да</string>
+    <string name="dialog_load_confirm_btn_negative">Нет</string>
+
+    <string name="dialog_save_title">Сохранить список</string>
+    <string name="dialog_save_input_hint">Название сохранения…</string>
+    <string name="dialog_save_positive">Сохранить</string>
+    <string name="dialog_save_negative">Отмена</string>
+    <string name="dialog_save_alreadyExists_message">Список с таким именем уже существует</string>
+    <string name="dialog_save_nameUnavailable_message">Имя недоступно</string>
+
+    <string name="dialog_load_custom_positive">Открыть</string>
+    <string name="dialog_load_custom_negative">Отмена</string>
+    <string name="dialog_load_custom_noSelection">Сначала нужно что-то выбрать</string>
+    <string name="dialog_load_custom_title">Выберите список</string>
+
+    <!-- TOOLBAR NAVIGATION BUTTON -->
+    <string name="navigation_main">Главная</string>
+    <string name="navigation_settings">Настройки</string>
+    <string name="navigation_saves">Сохранения</string>
+
+    <!-- SETTINGS ACTIVITY-->
+    <string name="settings_toolbar_title">Настройки</string>
+
+    <string name="settings_language_title">Язык</string>
+
+</resources>

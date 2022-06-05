@@ -1,5 +1,6 @@
 package com.app.shopper;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -13,6 +14,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import com.app.shopper.dialogs.RenameSaveDialogFragment;
+import com.app.shopper.util.SettingsHelper;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -34,6 +36,7 @@ public class SaveFilesActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        SettingsHelper.setLocale(this);
         getWindow().getDecorView().setBackgroundColor(getColor(R.color.background));
         setContentView(R.layout.activity_save_files);
         
@@ -96,6 +99,7 @@ public class SaveFilesActivity extends AppCompatActivity {
     // ------------------------------------------------------------------------------------------------------
     // POPUP MENU CLICK HANDLING
     // ------------------------------------------------------------------------------------------------------
+    @SuppressLint("NonConstantResourceId")
     public void showPopupMenu(View v, File saveFile) {
         PopupMenu popupMenu = new PopupMenu(this, v);
         popupMenu.setOnMenuItemClickListener(item -> {
