@@ -36,6 +36,7 @@ import com.app.shopper.dialogs.LoadSaveConfirmationDialogFragment;
 import com.app.shopper.dialogs.RenameItemDialogFragment;
 import com.app.shopper.dialogs.SaveListDialogFragment;
 import com.app.shopper.util.CacheHelper;
+import com.app.shopper.util.SettingsHelper;
 import com.app.shopper.util.StringUtils;
 
 import java.io.BufferedReader;
@@ -45,7 +46,6 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Locale;
 
 public class ManageListActivity extends AppCompatActivity {
     
@@ -92,6 +92,7 @@ public class ManageListActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        SettingsHelper.setLocale(this);
         getWindow().getDecorView().setBackgroundColor(getColor(R.color.background));
         setContentView(R.layout.activity_manage_list);
         createNotificationChannel(SHOP_LIST_NOTIFICATION_CHANNEL_ID,
@@ -412,7 +413,6 @@ public class ManageListActivity extends AppCompatActivity {
         catch (Exception e) {
             String msg = String.format(getString(R.string.list_load_error_general),
                                        fileName.replaceAll(".txt", ""));
-            // Regex to remove file extension
             if (!saveFile.exists()) {
                 msg = String.format(getString(R.string.list_load_error_notExist),
                                     fileName.replaceAll(".txt", ""));

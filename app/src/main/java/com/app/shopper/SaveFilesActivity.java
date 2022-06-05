@@ -14,6 +14,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import com.app.shopper.dialogs.RenameSaveDialogFragment;
+import com.app.shopper.util.SettingsHelper;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -35,6 +36,7 @@ public class SaveFilesActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        SettingsHelper.setLocale(this);
         getWindow().getDecorView().setBackgroundColor(getColor(R.color.background));
         setContentView(R.layout.activity_save_files);
         

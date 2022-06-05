@@ -78,6 +78,10 @@
     <string name="navigation_main">Главная</string>
     <string name="navigation_settings">Настройки</string>
     <string name="navigation_saves">Сохранения</string>
+
+    <!-- SETTINGS ACTIVITY-->
     <string name="settings_toolbar_title">Настройки</string>
+
+    <string name="settings_language_title">Язык</string>
 
 </resources>
