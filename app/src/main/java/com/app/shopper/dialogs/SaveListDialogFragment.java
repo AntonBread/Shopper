@@ -93,6 +93,10 @@ public class SaveListDialogFragment extends DialogFragment {
                     btn_pos.setEnabled(true);
                     btn_pos.setBackgroundTintList(getContext().getColorStateList(R.color.custom));
                 }
+                else {
+                    btn_pos.setEnabled(false);
+                    btn_pos.setBackgroundTintList(getContext().getColorStateList(R.color.background));
+                }
             }
             
             @Override

@@ -9,7 +9,7 @@
         android:id="@+id/dialog_load_custom_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
+        android:layout_marginTop="12dp"
         android:gravity="center"
         android:text="@string/dialog_load_custom_title"
         android:textSize="24sp"

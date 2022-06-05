@@ -43,6 +43,9 @@
     <string name="saves_file_rename_fail">Something went wrong, file could not be renamed</string>
 
 
+    <!-- SETTINGS ACTIVITY-->
+    <string name="settings_toolbar_title">Settings</string>
+
 
     <!--NOTIFICATION STRINGS-->
     <string name="notification_shopList_name">Shop List</string>
@@ -73,5 +76,11 @@
     <string name="dialog_load_custom_positive">Open</string>
     <string name="dialog_load_custom_negative">Cancel</string>
     <string name="dialog_load_custom_noSelection">You have to select something first</string>
+
+
+    <!-- TOOLBAR NAVIGATION BUTTON -->
+    <string name="navigation_main">Main</string>
+    <string name="navigation_saves">Saved Lists</string>
+    <string name="navigation_settings">Settings</string>
 
 </resources>
