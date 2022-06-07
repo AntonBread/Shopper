@@ -27,6 +27,8 @@
     <string name="list_load_error_general">Loading from \"%s\" failed.</string>
     <string name="list_load_error_notExist">Save file \"%s\" doesn\'t exist.</string>
     <string name="list_load_error_cantRead">Save file \"%s\" cannot be read.</string>
+    <string name="list_load_temp_error_notExist">No last opened list found</string>
+    <string name="list_load_temp_error_general">Loading last opened list failed</string>
 
 
     <!-- SAVE FILES ACTIVITY-->
@@ -70,6 +72,7 @@
 
     <string name="dialog_delete_confirm_message">Selected items will be deleted.\nContinue?</string>
     <string name="dialog_delete_confirm_btn">Delete</string>
+    <string name="dialog_delete_confirm_saveMessage">Saved list \"%s\" will be deleted.\nContinue?</string>
 
     <string name="dialog_load_confirm_text">Current list will be lost.\nContinue?</string>
     <string name="dialog_load_confirm_btn_positive">Yes</string>
@@ -82,10 +85,12 @@
     <string name="dialog_save_alreadyExists_message">List with this name already exists</string>
     <string name="dialog_save_nameUnavailable_message">Name unavailable</string>
 
+    <string name="dialog_load_custom_noSaves">No saved lists found</string>
     <string name="dialog_load_custom_title">Choose saved list</string>
     <string name="dialog_load_custom_positive">Open</string>
     <string name="dialog_load_custom_negative">Cancel</string>
     <string name="dialog_load_custom_noSelection">You have to select something first</string>
+    <string name="dialog_load_custom_result_null">Saved list could not be loaded</string>
 
 
     <!-- TOOLBAR NAVIGATION BUTTON -->

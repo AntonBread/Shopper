@@ -5,6 +5,8 @@ import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.util.Log;
@@ -36,6 +38,7 @@ import com.app.shopper.dialogs.LoadSaveConfirmationDialogFragment;
 import com.app.shopper.dialogs.RenameItemDialogFragment;
 import com.app.shopper.dialogs.SaveListDialogFragment;
 import com.app.shopper.util.CacheHelper;
+import com.app.shopper.util.DrawableUtils;
 import com.app.shopper.util.SettingsHelper;
 import com.app.shopper.util.StringUtils;
 
@@ -83,11 +86,7 @@ public class ManageListActivity extends AppCompatActivity {
     
     private boolean isToolbarModeSelection = false;
     
-    // TODO: Add custom ListView style
-    // TODO: Modify selection mode toolbar (google files for reference)
-    // TODO: Switch Toast error messages for TextViews (for input)
     // TODO: Background selector for cylindrical and circle buttons
-    // TODO: Make toolbar navigation button remove selection in selection mode
     
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -309,7 +308,7 @@ public class ManageListActivity extends AppCompatActivity {
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_IMMUTABLE);
         
         NotificationCompat.Builder builder = new NotificationCompat.Builder(this, SHOP_LIST_NOTIFICATION_CHANNEL_ID)
-                .setSmallIcon(R.drawable.ic_launcher_foreground)
+                .setSmallIcon(R.drawable.ic_notification)
                 .setContentTitle(getString(R.string.notification_shopList_contentTitle))
                 .setContentText(getString(R.string.notification_shopList_contentText))
                 .setPriority(NotificationCompat.PRIORITY_LOW)
@@ -377,8 +376,14 @@ public class ManageListActivity extends AppCompatActivity {
         }
         catch (Exception e) {
             Log.d("DEBUG", Arrays.toString(e.getStackTrace()));
-            String msg = String.format(getString(R.string.list_load_error_general), "tempSave");
-            Toast.makeText(this, e.getLocalizedMessage(), Toast.LENGTH_LONG).show();
+            String msg;
+            if (!tempSaveFile.exists()) {
+                msg = getString(R.string.list_load_temp_error_notExist);
+            }
+            else {
+                msg = getString(R.string.list_load_temp_error_general);
+            }
+            Toast.makeText(this, msg, Toast.LENGTH_LONG).show();
         }
     }
     
@@ -394,7 +399,7 @@ public class ManageListActivity extends AppCompatActivity {
             Toast.makeText(this, successMessage, Toast.LENGTH_SHORT).show();
         }
         catch (Exception e) {
-            Toast.makeText(this, R.string.list_save_error, Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, R.string.list_save_error, Toast.LENGTH_LONG).show();
         }
     }
     
@@ -421,7 +426,7 @@ public class ManageListActivity extends AppCompatActivity {
                 msg = String.format(getString(R.string.list_load_error_cantRead),
                                     fileName.replaceAll(".txt", ""));
             }
-            Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, msg, Toast.LENGTH_LONG).show();
         }
     }
     // ------------------------------------------------------------------------------------------------------
@@ -619,7 +624,7 @@ public class ManageListActivity extends AppCompatActivity {
             case R.id.menu_action_loadCustom:
                 saveFiles = saveDirectory.listFiles((dir, name) -> !name.equals(TEMP_SAVE_NAME));
                 if (saveFiles == null || saveFiles.length == 0) {
-                    // TODO: Show some kind of error message
+                    Toast.makeText(this, R.string.dialog_load_custom_noSaves, Toast.LENGTH_SHORT).show();
                     return false;
                 }
                 
@@ -654,7 +659,8 @@ public class ManageListActivity extends AppCompatActivity {
                                                     resultSave.getString(
                                                             LoadCustomDialogFragment.LOAD_CUSTOM_DIALOG_RESULT_KEY);
                                             if (saveFileName == null) {
-                                                // TODO: Maybe add some error message here too
+                                                Toast.makeText(this, R.string.dialog_load_custom_result_null,
+                                                               Toast.LENGTH_LONG).show();
                                                 return;
                                             }
                                             loadList(saveFileName);
@@ -685,7 +691,8 @@ public class ManageListActivity extends AppCompatActivity {
                                 String selectedSaveName =
                                         result.getString(LoadCustomDialogFragment.LOAD_CUSTOM_DIALOG_RESULT_KEY);
                                 if (selectedSaveName == null) {
-                                    // TODO: Maybe add some error message here too
+                                    Toast.makeText(this, R.string.dialog_load_custom_result_null, Toast.LENGTH_LONG)
+                                         .show();
                                     return;
                                 }
                                 loadList(selectedSaveName);

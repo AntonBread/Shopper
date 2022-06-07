@@ -3,12 +3,14 @@ package com.app.shopper.dialogs;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.DialogFragment;
@@ -19,6 +21,9 @@ public class DeleteItemConfirmationDialogFragment extends DialogFragment {
     
     public static final String DELETE_DIALOG_RESULT_KEY = "delete_dialog_result_key";
     public static final String DELETE_DIALOG_REQUEST_KEY = "delete_dialog_request_key";
+    
+    public static final String DELETE_DIALOG_ARGS_BOOL_KEY = "delete_dialog_args_bool_key";
+    public static final String DELETE_DIALOG_ARGS_STRING_KEY = "delete_dialog_args_string_key";
     
     @NonNull
     @Override
@@ -50,6 +55,19 @@ public class DeleteItemConfirmationDialogFragment extends DialogFragment {
             dismiss();
         });
         // No negative button, touch outside of dialog window to exit with negative result
+        
+        // This fragment is also used for save delete confirmation
+        Bundle args = getArguments();
+        if (args == null) {
+            return;
+        }
+        boolean isSaveDeletion = args.getBoolean(DELETE_DIALOG_ARGS_BOOL_KEY, false);
+        if (isSaveDeletion) {
+            TextView title = dialog.findViewById(R.id.dialog_delete_message);
+            String saveName = args.getString(DELETE_DIALOG_ARGS_STRING_KEY, "");
+            String msg = String.format(getString(R.string.dialog_delete_confirm_saveMessage), saveName);
+            title.setText(msg);
+        }
     }
     
 }
