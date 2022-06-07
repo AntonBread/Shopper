@@ -5,6 +5,8 @@ import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.util.Log;
@@ -36,6 +38,7 @@ import com.app.shopper.dialogs.LoadSaveConfirmationDialogFragment;
 import com.app.shopper.dialogs.RenameItemDialogFragment;
 import com.app.shopper.dialogs.SaveListDialogFragment;
 import com.app.shopper.util.CacheHelper;
+import com.app.shopper.util.DrawableUtils;
 import com.app.shopper.util.SettingsHelper;
 import com.app.shopper.util.StringUtils;
 
@@ -305,7 +308,7 @@ public class ManageListActivity extends AppCompatActivity {
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_IMMUTABLE);
         
         NotificationCompat.Builder builder = new NotificationCompat.Builder(this, SHOP_LIST_NOTIFICATION_CHANNEL_ID)
-                .setSmallIcon(R.drawable.ic_launcher_foreground)
+                .setSmallIcon(R.drawable.ic_notification)
                 .setContentTitle(getString(R.string.notification_shopList_contentTitle))
                 .setContentText(getString(R.string.notification_shopList_contentText))
                 .setPriority(NotificationCompat.PRIORITY_LOW)

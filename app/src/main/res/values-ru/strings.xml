@@ -87,6 +87,6 @@
     <string name="list_load_temp_error_general">Загрузка последнего открытого списка не удалась</string>
     <string name="dialog_load_custom_noSaves">Сохраненные списки не найдены</string>
     <string name="dialog_load_custom_result_null">Сохраненный список не удалось загрузить</string>
-    <string name="dialog_delete_confirm_saveMessage">Сохраненный список \\\"%s\\\" будет удален.\\nПродолжить?</string>
+    <string name="dialog_delete_confirm_saveMessage">Сохраненный список \"%s\" будет удален.\nПродолжить?</string>
 
 </resources>
