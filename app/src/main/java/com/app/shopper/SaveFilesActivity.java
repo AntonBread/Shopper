@@ -10,9 +10,12 @@ import android.widget.PopupMenu;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.fragment.app.FragmentResultListener;
 
+import com.app.shopper.dialogs.DeleteItemConfirmationDialogFragment;
 import com.app.shopper.dialogs.RenameSaveDialogFragment;
 import com.app.shopper.util.SettingsHelper;
 
@@ -110,7 +113,22 @@ public class SaveFilesActivity extends AppCompatActivity {
                     return true;
                 
                 case R.id.popup_save_delete:
-                    deleteSaveFile(saveFile);
+                    getSupportFragmentManager().setFragmentResultListener(
+                            DeleteItemConfirmationDialogFragment.DELETE_DIALOG_REQUEST_KEY, this,
+                            (requestKey, result) -> {
+                                boolean delete = result.getBoolean(
+                                        DeleteItemConfirmationDialogFragment.DELETE_DIALOG_RESULT_KEY, false);
+                                if (delete) {
+                                    deleteSaveFile(saveFile);
+                                }
+                            });
+                    DeleteItemConfirmationDialogFragment deleteDialog = new DeleteItemConfirmationDialogFragment();
+                    Bundle args = new Bundle();
+                    args.putBoolean(DeleteItemConfirmationDialogFragment.DELETE_DIALOG_ARGS_BOOL_KEY, true);
+                    args.putString(DeleteItemConfirmationDialogFragment.DELETE_DIALOG_ARGS_STRING_KEY,
+                                   saveFile.getName().replace(".txt", ""));
+                    deleteDialog.setArguments(args);
+                    deleteDialog.show(getSupportFragmentManager(), "delete_save_dialog");
                     return true;
                 
                 case R.id.popup_save_rename:
