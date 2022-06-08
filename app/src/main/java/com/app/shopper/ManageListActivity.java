@@ -46,6 +46,7 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Locale;
 
 public class ManageListActivity extends AppCompatActivity {
     
@@ -94,6 +95,7 @@ public class ManageListActivity extends AppCompatActivity {
                                   getString(R.string.notification_shopList_description));
         
         SAVE_PATH = getFilesDir().getAbsolutePath() + "/save";
+        new File(SAVE_PATH).mkdir();
         CACHE_PATH = getCacheDir().getAbsolutePath();
         
         // ------------------------------------------------------------------------------------------------------
@@ -339,6 +341,7 @@ public class ManageListActivity extends AppCompatActivity {
         catch (Exception e) {
             Log.d("DEBUG", "Temp Save Failed!");
             Log.d("DEBUG", e.getLocalizedMessage());
+            Toast.makeText(this, e.getMessage(), Toast.LENGTH_LONG).show();
         }
     }
     
@@ -394,7 +397,8 @@ public class ManageListActivity extends AppCompatActivity {
             Toast.makeText(this, successMessage, Toast.LENGTH_SHORT).show();
         }
         catch (Exception e) {
-            Toast.makeText(this, R.string.list_save_error, Toast.LENGTH_LONG).show();
+            //Toast.makeText(this, R.string.list_save_error, Toast.LENGTH_LONG).show();
+            Toast.makeText(this, e.getMessage(), Toast.LENGTH_LONG).show();
         }
     }
     
