@@ -341,7 +341,6 @@ public class ManageListActivity extends AppCompatActivity {
         catch (Exception e) {
             Log.d("DEBUG", "Temp Save Failed!");
             Log.d("DEBUG", e.getLocalizedMessage());
-            Toast.makeText(this, e.getMessage(), Toast.LENGTH_LONG).show();
         }
     }
     
@@ -397,8 +396,7 @@ public class ManageListActivity extends AppCompatActivity {
             Toast.makeText(this, successMessage, Toast.LENGTH_SHORT).show();
         }
         catch (Exception e) {
-            //Toast.makeText(this, R.string.list_save_error, Toast.LENGTH_LONG).show();
-            Toast.makeText(this, e.getMessage(), Toast.LENGTH_LONG).show();
+            Toast.makeText(this, R.string.list_save_error, Toast.LENGTH_LONG).show();
         }
     }
     
