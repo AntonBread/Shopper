@@ -1,13 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<shape xmlns:android="http://schemas.android.com/apk/res/android"
-    android:shape="rectangle">
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <solid android:color="@android:color/transparent" />
+    <item
+        android:drawable="@drawable/btn_cylindrical_negative_pressed"
+        android:state_pressed="true" />
 
-    <stroke
-        android:width="2dp"
-        android:color="@color/custom" />
+    <item
+        android:drawable="@drawable/btn_cylindrical_negative_focused"
+        android:state_focused="true"/>
 
-    <corners android:radius="250dp" />
+    <item
+        android:drawable="@drawable/btn_cylindrical_negative_default" />
 
-</shape>
+</selector>

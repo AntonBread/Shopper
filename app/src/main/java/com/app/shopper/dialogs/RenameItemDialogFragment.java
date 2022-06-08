@@ -74,7 +74,7 @@ public class RenameItemDialogFragment extends DialogFragment {
 
         // Positive button is disabled if the name is unchanged
         btn_pos.setEnabled(false);
-        btn_pos.setBackgroundTintList(getContext().getColorStateList(R.color.background));
+        btn_pos.setBackgroundTintList(getContext().getColorStateList(R.color.btn_cylindrical_blue_tint));
         name_edit.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
@@ -83,7 +83,6 @@ public class RenameItemDialogFragment extends DialogFragment {
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 if (!s.equals(startText)) {
                     btn_pos.setEnabled(true);
-                    btn_pos.setBackgroundTintList(getContext().getColorStateList(R.color.blue));
                 }
             }
 
@@ -92,7 +91,6 @@ public class RenameItemDialogFragment extends DialogFragment {
                 String text = StringUtils.formatItemNameInput(s.toString());
                 if (text.equals(startText)) {
                     btn_pos.setEnabled(false);
-                    btn_pos.setBackgroundTintList(getContext().getColorStateList(R.color.background));
                 }
             }
         });

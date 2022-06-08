@@ -46,7 +46,7 @@ public class DeleteItemConfirmationDialogFragment extends DialogFragment {
         
         
         Button btn_pos = dialog.findViewById(R.id.dialog_delete_btn_confirm);
-        btn_pos.setBackgroundTintList(getContext().getColorStateList(R.color.blue));
+        btn_pos.setBackgroundTintList(getContext().getColorStateList(R.color.btn_cylindrical_blue_tint));
         // Custom positive button listener
         btn_pos.setOnClickListener(v -> {
             Bundle result = new Bundle();
@@ -67,6 +67,7 @@ public class DeleteItemConfirmationDialogFragment extends DialogFragment {
             String saveName = args.getString(DELETE_DIALOG_ARGS_STRING_KEY, "");
             String msg = String.format(getString(R.string.dialog_delete_confirm_saveMessage), saveName);
             title.setText(msg);
+            btn_pos.setBackgroundTintList(null);
         }
     }
     

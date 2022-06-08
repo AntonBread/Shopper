@@ -77,7 +77,7 @@ public class RenameSaveDialogFragment extends DialogFragment {
         
         // Positive button is disabled on start
         // EditText input has to be non-empty and different from original name for button to become active
-        disable(btnPos);
+        btnPos.setEnabled(false);
         nameEdit.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
@@ -86,10 +86,10 @@ public class RenameSaveDialogFragment extends DialogFragment {
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 String input = s.toString();
                 if (input.isEmpty() || input.equals(startText)) {
-                    disable(btnPos);
+                    btnPos.setEnabled(false);
                 }
                 else {
-                    enable(btnPos);
+                    btnPos.setEnabled(true);
                 }
             }
             
@@ -107,13 +107,4 @@ public class RenameSaveDialogFragment extends DialogFragment {
         dialog.findViewById(R.id.dialog_save_btn_negative).setOnClickListener(v -> dismiss());
     }
     
-    private void disable(Button btn) {
-        btn.setEnabled(false);
-        btn.setBackgroundTintList(getContext().getColorStateList(R.color.background));
-    }
-    
-    private void enable(Button btn) {
-        btn.setEnabled(true);
-        btn.setBackgroundTintList(getContext().getColorStateList(R.color.custom));
-    }
 }

@@ -5,8 +5,6 @@ import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.util.Log;
@@ -38,7 +36,6 @@ import com.app.shopper.dialogs.LoadSaveConfirmationDialogFragment;
 import com.app.shopper.dialogs.RenameItemDialogFragment;
 import com.app.shopper.dialogs.SaveListDialogFragment;
 import com.app.shopper.util.CacheHelper;
-import com.app.shopper.util.DrawableUtils;
 import com.app.shopper.util.SettingsHelper;
 import com.app.shopper.util.StringUtils;
 
@@ -86,8 +83,6 @@ public class ManageListActivity extends AppCompatActivity {
     
     private boolean isToolbarModeSelection = false;
     
-    // TODO: Background selector for cylindrical and circle buttons
-    
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -125,7 +120,7 @@ public class ManageListActivity extends AppCompatActivity {
         // LISTVIEW & ADAPTER SETUP
         // ------------------------------------------------------------------------------------------------------
         itemList = findViewById(R.id.list_shopList);
-        itemAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_multiple_choice, items);
+        itemAdapter = new ArrayAdapter<>(this, R.layout.list_multi_choice, items);
         itemList.setAdapter(itemAdapter);
         
         listClickListener = (parent, view, position, id) -> {
