@@ -46,6 +46,7 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Locale;
 
 public class ManageListActivity extends AppCompatActivity {
     
@@ -94,6 +95,7 @@ public class ManageListActivity extends AppCompatActivity {
                                   getString(R.string.notification_shopList_description));
         
         SAVE_PATH = getFilesDir().getAbsolutePath() + "/save";
+        new File(SAVE_PATH).mkdir();
         CACHE_PATH = getCacheDir().getAbsolutePath();
         
         // ------------------------------------------------------------------------------------------------------

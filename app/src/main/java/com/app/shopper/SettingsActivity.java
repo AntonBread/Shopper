@@ -70,7 +70,7 @@ public class SettingsActivity extends AppCompatActivity {
         // Load language from prefs file
         String lang = settings.getString(LANGUAGE, null);
         if (lang == null) {
-            String sysLang = Locale.getDefault().getLanguage();
+            String sysLang = getResources().getConfiguration().getLocales().get(0).getLanguage();
             if (!sysLang.equals(new Locale("ru").getLanguage())) {
                 sysLang = new Locale("en").getLanguage();
             }
