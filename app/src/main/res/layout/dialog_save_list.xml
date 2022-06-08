@@ -49,7 +49,7 @@
         app:layout_constraintWidth_default="percent"
         app:layout_constraintWidth_percent="0.7" />
 
-    <Button
+    <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/dialog_save_btn_positive"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -58,13 +58,14 @@
         android:layout_marginBottom="18dp"
         android:background="@drawable/btn_cylindrical_general"
         android:text="@string/dialog_save_positive"
+        android:textColor="@color/text_very_dark"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@id/dialog_save_input"
         app:layout_constraintWidth_default="percent"
         app:layout_constraintWidth_percent="0.4" />
 
-    <Button
+    <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/dialog_save_btn_negative"
         android:layout_width="0dp"
         android:layout_height="wrap_content"

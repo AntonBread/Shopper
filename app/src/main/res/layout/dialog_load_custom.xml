@@ -41,7 +41,7 @@
             android:dividerHeight="1dp" />
     </LinearLayout>
 
-    <Button
+    <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/dialog_load_custom_btn_positive"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -49,6 +49,7 @@
         android:layout_marginRight="22dp"
         android:layout_marginBottom="12dp"
         android:background="@drawable/btn_cylindrical_general"
+        android:textColor="@color/text_very_dark"
         android:text="@string/dialog_load_custom_positive"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintRight_toRightOf="parent"
@@ -57,7 +58,7 @@
         app:layout_constraintWidth_percent="0.4"
         tools:ignore="RtlHardcoded" />
 
-    <Button
+    <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/dialog_load_custom_btn_negative"
         android:layout_width="0dp"
         android:layout_height="wrap_content"

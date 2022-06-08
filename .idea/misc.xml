@@ -6,9 +6,19 @@
         <entry key="..\:/Android/AndroidStudioProjects/Shopper/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.3828125" />
         <entry key="..\:/Android/AndroidStudioProjects/Shopper/app/src/main/res/drawable/arrow_back-48px.xml" value="0.3828125" />
         <entry key="..\:/Android/AndroidStudioProjects/Shopper/app/src/main/res/drawable/btn_circle.xml" value="0.32407407407407407" />
+        <entry key="..\:/Android/AndroidStudioProjects/Shopper/app/src/main/res/drawable/btn_circle_default.xml" value="0.37407407407407406" />
+        <entry key="..\:/Android/AndroidStudioProjects/Shopper/app/src/main/res/drawable/btn_circle_focused.xml" value="0.37407407407407406" />
+        <entry key="..\:/Android/AndroidStudioProjects/Shopper/app/src/main/res/drawable/btn_circle_pressed.xml" value="0.37407407407407406" />
         <entry key="..\:/Android/AndroidStudioProjects/Shopper/app/src/main/res/drawable/btn_cylindrical.xml" value="0.3818359375" />
         <entry key="..\:/Android/AndroidStudioProjects/Shopper/app/src/main/res/drawable/btn_cylindrical_general.xml" value="0.3769230769230769" />
+        <entry key="..\:/Android/AndroidStudioProjects/Shopper/app/src/main/res/drawable/btn_cylindrical_general_default.xml" value="0.37407407407407406" />
+        <entry key="..\:/Android/AndroidStudioProjects/Shopper/app/src/main/res/drawable/btn_cylindrical_general_disabled.xml" value="0.37407407407407406" />
+        <entry key="..\:/Android/AndroidStudioProjects/Shopper/app/src/main/res/drawable/btn_cylindrical_general_focused.xml" value="0.37407407407407406" />
+        <entry key="..\:/Android/AndroidStudioProjects/Shopper/app/src/main/res/drawable/btn_cylindrical_general_pressed.xml" value="0.37407407407407406" />
         <entry key="..\:/Android/AndroidStudioProjects/Shopper/app/src/main/res/drawable/btn_cylindrical_negative.xml" value="0.3769230769230769" />
+        <entry key="..\:/Android/AndroidStudioProjects/Shopper/app/src/main/res/drawable/btn_cylindrical_negative_default.xml" value="0.37407407407407406" />
+        <entry key="..\:/Android/AndroidStudioProjects/Shopper/app/src/main/res/drawable/btn_cylindrical_negative_focused.xml" value="0.37407407407407406" />
+        <entry key="..\:/Android/AndroidStudioProjects/Shopper/app/src/main/res/drawable/btn_cylindrical_negative_pressed.xml" value="0.37407407407407406" />
         <entry key="..\:/Android/AndroidStudioProjects/Shopper/app/src/main/res/drawable/dialog_layout_frame.xml" value="0.3490740740740741" />
         <entry key="..\:/Android/AndroidStudioProjects/Shopper/app/src/main/res/drawable/edit_text_back_dark.xml" value="0.32407407407407407" />
         <entry key="..\:/Android/AndroidStudioProjects/Shopper/app/src/main/res/drawable/edit_text_frame.xml" value="0.36203703703703705" />
@@ -38,6 +48,7 @@
         <entry key="..\:/Android/AndroidStudioProjects/Shopper/app/src/main/res/drawable/ic_toolbar_menu_24.xml" value="0.3769230769230769" />
         <entry key="..\:/Android/AndroidStudioProjects/Shopper/app/src/main/res/drawable/ic_toolbar_menu_48.xml" value="0.3769230769230769" />
         <entry key="..\:/Android/AndroidStudioProjects/Shopper/app/src/main/res/drawable/line_divider.xml" value="0.35555555555555557" />
+        <entry key="..\:/Android/AndroidStudioProjects/Shopper/app/src/main/res/drawable/list_multi_choice_check.xml" value="0.37407407407407406" />
         <entry key="..\:/Android/AndroidStudioProjects/Shopper/app/src/main/res/drawable/list_view_background.xml" value="0.3769230769230769" />
         <entry key="..\:/Android/AndroidStudioProjects/Shopper/app/src/main/res/drawable/menu-48px.xml" value="0.3828125" />
         <entry key="..\:/Android/AndroidStudioProjects/Shopper/app/src/main/res/drawable/spinner_dropdown_background.xml" value="0.37037037037037035" />
@@ -53,6 +64,7 @@
         <entry key="..\:/Android/AndroidStudioProjects/Shopper/app/src/main/res/layout/dialog_rename_item.xml" value="0.29393115942028986" />
         <entry key="..\:/Android/AndroidStudioProjects/Shopper/app/src/main/res/layout/dialog_rename_save.xml" value="0.2608695652173913" />
         <entry key="..\:/Android/AndroidStudioProjects/Shopper/app/src/main/res/layout/dialog_save_list.xml" value="0.27445652173913043" />
+        <entry key="..\:/Android/AndroidStudioProjects/Shopper/app/src/main/res/layout/list_multi_choice.xml" value="0.3088768115942029" />
         <entry key="..\:/Android/AndroidStudioProjects/Shopper/app/src/main/res/layout/settings_activity.xml" value="0.2921195652173913" />
         <entry key="..\:/Android/AndroidStudioProjects/Shopper/app/src/main/res/layout/spinner_dropdown_item_right.xml" value="0.27898550724637683" />
         <entry key="..\:/Android/AndroidStudioProjects/Shopper/app/src/main/res/menu/list_toolbar_menu.xml" value="0.36666666666666664" />

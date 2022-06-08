@@ -2,6 +2,7 @@ package com.app.shopper.dialogs;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.res.ColorStateList;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -79,7 +80,6 @@ public class SaveListDialogFragment extends DialogFragment {
         
         // Positive button is disabled if input is empty
         btn_pos.setEnabled(false);
-        btn_pos.setBackgroundTintList(getContext().getColorStateList(R.color.background));
         saveNameInput.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -91,11 +91,9 @@ public class SaveListDialogFragment extends DialogFragment {
                 // Enable positive button if input is non-empty
                 if (!s.toString().isEmpty()) {
                     btn_pos.setEnabled(true);
-                    btn_pos.setBackgroundTintList(getContext().getColorStateList(R.color.custom));
                 }
                 else {
                     btn_pos.setEnabled(false);
-                    btn_pos.setBackgroundTintList(getContext().getColorStateList(R.color.background));
                 }
             }
             

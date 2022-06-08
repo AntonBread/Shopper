@@ -15,8 +15,10 @@
     <color name="text_dark">#FF878787</color>
     <color name="toolbar">#FFBFC9AA</color>
     <color name="blue">#FF8DE1FF</color>
+    <color name="blue_light">#FFAFEAFF</color>
     <color name="red">#FFF44336</color>
     <color name="edit_text_background_dark">#FF363636</color>
     <color name="list_view_background_solid_dark">#FF282828</color>
     <color name="list_view_background_stroke_dark">#FF908C7F</color>
+    <color name="text_very_dark">#FF353535</color>
 </resources>
